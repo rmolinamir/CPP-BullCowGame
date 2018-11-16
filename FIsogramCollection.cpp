@@ -29,8 +29,7 @@ FString FIsogramCollection::GetRandomWordByLength(int32 Length) const
 
 int32 FIsogramCollection::RandomNumber(int32 MaxRange) const // random number generator helper function
 {
-	std::mt19937 rng;
-	rng.seed(std::random_device()());
+	static thread_local std::mt19937 s_Rng{ std::random_device{}() };
 	std::uniform_int_distribution<std::mt19937::result_type> distRandom(1, MaxRange); // distribution in range [1, MaxRange]
-	return distRandom(rng);
+	return distRandom(s_Rng);
 }
